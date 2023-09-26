@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "PMIS App",
-    "slug": "PMIS_App_HORC",
-    "version": "1.0.0",
+    "name": "PMIS_App_HORCP",
+    "slug": "PMIS_App_HORCP",
+    "version": "1.1.2",
     "orientation": "portrait",
     "icon": "./assets/picture.png",
     "userInterfaceStyle": "automatic",
@@ -23,32 +23,36 @@
         {
           "iCloudContainerEnvironment": "Production"
         }
-        
-      ],[
+      ],
+      [
         "expo-location",
         {
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
-        
       ]
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.smec.pmisPEDOApp"
+      "bundleIdentifier": "com.smec.pmisHorcpApp"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/picture.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.smec.pmisPedoApp"
+      "package": "com.smec.pmisHorcpApp",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE"
+      ]
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/picture.png"
     },
     "extra": {
       "eas": {
-        "projectId": "90a0d2f6-5558-498b-8c79-0a57e05c8862"
+        "projectId": "12d9501a-ae5d-4ef8-8432-c46f4f5063b9"
       }
     }
   }

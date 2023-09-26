@@ -1,4 +1,4 @@
-import { Alert, Image, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, ImageBackground, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState, useEffect, useCallback } from 'react'
 import Footer from './Footer'
 import tw from 'tailwind-react-native-classnames'
@@ -289,7 +289,14 @@ export default function InspectionForm({ route }) {
     
         console.log("Doc: " + file2);
       };
-        
+      const GotoDelete = (itemNme) => {
+        const updatedFile = file.filter((item) => item.name !== itemNme);
+        setFile(updatedFile);
+      };
+      const GotoDelete2 = (itemNme) => {
+        const updatedFile = file2.filter((item) => item.name !== itemNme);
+        setFile2(updatedFile);
+      };
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <View style={styles.container}>
@@ -400,19 +407,54 @@ export default function InspectionForm({ route }) {
                     <ScrollView style={[tw`text-indigo-700`, styles.DocBox]} horizontal={true}>
             {file.map(data =>
               <View>
-                {data.name.includes('.pdf') ?
-
-                  <Image source={{ uri: 'https://cdn.pixabay.com/photo/2017/03/08/21/20/pdf-2127829_960_720.png' }}
-                    style={{ width: 200, height: 200, margin: 10, padding: 5 }} />
-
-
-                  :
-
-                  <Image source={{ uri: data.uri }}
-                    style={{ width: 200, height: 200, margin: 10, padding: 5 }}
-                  />
-                }
-              </View>
+              {data.name.includes('.pdf') ? (
+            <ImageBackground
+            source={{
+              uri: "https://cdn.pixabay.com/photo/2017/03/08/21/20/pdf-2127829_960_720.png",
+            }}
+            style={{ width: 200, height: 200, margin: 10, padding: 5 }}
+          >
+            <View style={{ padding: 5, alignItems: "flex-end" }}>
+              <TouchableOpacity
+                style={{ borderColor: "black", borderWidth: 1 }}
+                onPress={() => GotoDelete(data.name)}
+              >
+                <Image
+                  source={require("../assets/trash.png")}
+                  style={{
+                    width: 20,
+                    height: 20,
+                    margin: 5,
+                    alignContent: "flex-end",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
+        ) : (
+          <ImageBackground
+            source={{ uri: data.uri }}
+            style={{ width: 200, height: 200, margin: 10, padding: 5 }}
+          >
+            <View style={{ padding: 5, alignItems: "flex-end" }}>
+              <TouchableOpacity
+                style={{ borderColor: "black", borderWidth: 1 }}
+                onPress={() => GotoDelete(data.name)}
+              >
+                <Image
+                  source={require("../assets/trash.png")}
+                  style={{
+                    width: 20,
+                    height: 20,
+                    margin: 5,
+                    alignContent: "flex-end",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
+           )}
+         </View>
             )}
           </ScrollView>
                     <View style={{ flex: 1, flexDirection: 'row', }}>
@@ -422,19 +464,54 @@ export default function InspectionForm({ route }) {
                     <ScrollView style={[tw`text-indigo-700`, styles.DocBox]} horizontal={true}>
             {file2.map(data =>
               <View>
-                {data.name.includes('.pdf') ?
-
-                  <Image source={{ uri: 'https://cdn.pixabay.com/photo/2017/03/08/21/20/pdf-2127829_960_720.png' }}
-                    style={{ width: 200, height: 200, margin: 10, padding: 5 }} />
-
-
-                  :
-
-                  <Image source={{ uri: data.uri }}
-                    style={{ width: 200, height: 200, margin: 10, padding: 5 }}
-                  />
-                }
-              </View>
+              {data.name.includes('.pdf') ? (
+            <ImageBackground
+            source={{
+              uri: "https://cdn.pixabay.com/photo/2017/03/08/21/20/pdf-2127829_960_720.png",
+            }}
+            style={{ width: 200, height: 200, margin: 10, padding: 5 }}
+          >
+            <View style={{ padding: 5, alignItems: "flex-end" }}>
+              <TouchableOpacity
+                style={{ borderColor: "black", borderWidth: 1 }}
+                onPress={() => GotoDelete2(data.name)}
+              >
+                <Image
+                  source={require("../assets/trash.png")}
+                  style={{
+                    width: 20,
+                    height: 20,
+                    margin: 5,
+                    alignContent: "flex-end",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
+        ) : (
+          <ImageBackground
+            source={{ uri: data.uri }}
+            style={{ width: 200, height: 200, margin: 10, padding: 5 }}
+          >
+            <View style={{ padding: 5, alignItems: "flex-end" }}>
+              <TouchableOpacity
+                style={{ borderColor: "black", borderWidth: 1 }}
+                onPress={() => GotoDelete2(data.name)}
+              >
+                <Image
+                  source={require("../assets/trash.png")}
+                  style={{
+                    width: 20,
+                    height: 20,
+                    margin: 5,
+                    alignContent: "flex-end",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
+           )}
+         </View>
             )}
           </ScrollView>
           {!isPressed ? 

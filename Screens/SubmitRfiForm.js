@@ -1,6 +1,7 @@
 import {
   Alert,
   Image,
+  ImageBackground,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -27,7 +28,7 @@ export default function SubmitRfiForm() {
   const packageString = global.package_title
   const form_rfi = global.form_rfi
   const uploadURL = global.fileupload
-  const employerString = 'HRIDC'
+  const employerString = 'PEDO'
   const engineerString = 'GC HORC (RITES-SMEC JV)'
 
   const [rfiNo, setRfiNo] = useState('')
@@ -72,9 +73,16 @@ export default function SubmitRfiForm() {
     setDatePickerVisibility(true)
   }
   const hideDatePicker = () => {
-    if (date2 < currentDate || date2 == currentDate) {
+ 
+    const [year, month, day] = date2.split('-').map(Number);
+    const date2Obj = new Date(year, month - 1, day); // month is zero-based
+    const [curYear2, curMonth2, curDay2] = currentDate.split('-').map(Number);
+    const currentDateObj = new Date(curYear2, curMonth2 - 1, curDay2); // month is zero-based
+
+    if (date2Obj < currentDateObj || date2Obj == currentDateObj) {
       alert('Please select Inspection date from future date')
-      // setDate2('');
+    //   console.log(date2Obj < currentDateObj)
+      setDate2('');
     }
     setDatePickerVisibility(false)
   }
@@ -85,7 +93,7 @@ export default function SubmitRfiForm() {
     var curMonth = date.getMonth() + 1
     var curYear = date.getFullYear()
     setDate2(curYear + '-' + curMonth + '-' + curDate)
-    console.log(date2)
+    
     hideDatePicker()
   }
 
@@ -97,7 +105,7 @@ export default function SubmitRfiForm() {
   }, [])
 
   const SubmitFn = () => {
-    if (date2 < currentDate || date2 == currentDate) {
+    if (date2.length == 0) {
       alert('Please select Inspection date from future date.!')
     } else if (rfiNo.length == 0) {
       alert('Please Enter RFI No.!')
@@ -213,6 +221,7 @@ export default function SubmitRfiForm() {
       type: '*/*',
       copyToCacheDirectory: true,
     }).then((response) => {
+      console.log(response)
       if (response.type == 'success') {
         let { name, size, uri } = response
         let nameParts = name.split('.')
@@ -229,7 +238,10 @@ export default function SubmitRfiForm() {
       }
     })
   }
-
+  const GotoDelete = (itemNme) => {
+    const updatedFile = file.filter((item) => item.name !== itemNme);
+    setFile(updatedFile);
+  };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
       <View style={styles.container}>
@@ -255,7 +267,7 @@ export default function SubmitRfiForm() {
               {employerString}
             </Text>
           </View>
-          <View style={{ flex: 1, flexDirection: 'row' }}>
+          {/* <View style={{ flex: 1, flexDirection: 'row' }}>
             <Text style={[tw` mt-2.5 ml-2.5 text-indigo-700`, styles.titleBox]}>
               Engineer
             </Text>
@@ -264,7 +276,7 @@ export default function SubmitRfiForm() {
             >
               {engineerString}
             </Text>
-          </View>
+          </View> */}
           <View style={{ flex: 1, flexDirection: 'row' }}>
             <Text style={[tw` mt-2.5 ml-2.5 text-indigo-700`, styles.titleBox]}>
               Contractor
@@ -409,18 +421,51 @@ export default function SubmitRfiForm() {
             {file.map((data) => (
               <View>
                 {data.name.includes('.pdf') ? (
-                  <Image
-                    source={{
-                      uri:
-                        'https://cdn.pixabay.com/photo/2017/03/08/21/20/pdf-2127829_960_720.png',
-                    }}
-                    style={{ width: 200, height: 200, margin: 10, padding: 5 }}
-                  />
-                ) : (
-                  <Image
-                    source={{ uri: data.uri }}
-                    style={{ width: 200, height: 200, margin: 10, padding: 5 }}
-                  />
+                 <ImageBackground
+                 source={{
+                   uri: "https://cdn.pixabay.com/photo/2017/03/08/21/20/pdf-2127829_960_720.png",
+                 }}
+                 style={{ width: 200, height: 200, margin: 10, padding: 5 }}
+               >
+                 <View style={{ padding: 5, alignItems: "flex-end" }}>
+                   <TouchableOpacity
+                     style={{ borderColor: "black", borderWidth: 1 }}
+                     onPress={() => GotoDelete(data.name)}
+                   >
+                     <Image
+                       source={require("../assets/trash.png")}
+                       style={{
+                         width: 20,
+                         height: 20,
+                         margin: 5,
+                         alignContent: "flex-end",
+                       }}
+                     />
+                   </TouchableOpacity>
+                 </View>
+               </ImageBackground>
+             ) : (
+               <ImageBackground
+                 source={{ uri: data.uri }}
+                 style={{ width: 200, height: 200, margin: 10, padding: 5 }}
+               >
+                 <View style={{ padding: 5, alignItems: "flex-end" }}>
+                   <TouchableOpacity
+                     style={{ borderColor: "black", borderWidth: 1 }}
+                     onPress={() => GotoDelete(data.name)}
+                   >
+                     <Image
+                       source={require("../assets/trash.png")}
+                       style={{
+                         width: 20,
+                         height: 20,
+                         margin: 5,
+                         alignContent: "flex-end",
+                       }}
+                     />
+                   </TouchableOpacity>
+                 </View>
+               </ImageBackground>
                 )}
               </View>
             ))}

@@ -54,6 +54,7 @@ const ContractorActivity = (props) => {
             
         }
         setpkgData(pkgArray);
+        console.log(pkgArray)
     })
     .catch(err=>{
         console.log(err)

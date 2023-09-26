@@ -1,6 +1,7 @@
 import {
   Alert,
   Image,
+  ImageBackground,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -254,6 +255,10 @@ export default function ESHSObservationForm() {
       }
     })
   }
+  const GotoDelete = (itemNme) => {
+    const updatedFile = file.filter((item) => item.name !== itemNme);
+    setFile(updatedFile);
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
@@ -440,21 +445,54 @@ export default function ESHSObservationForm() {
           >
             {file.map((data) => (
               <View>
-                {data.name.includes('.pdf') ? (
-                  <Image
-                    source={{
-                      uri:
-                        'https://cdn.pixabay.com/photo/2017/03/08/21/20/pdf-2127829_960_720.png',
-                    }}
-                    style={{ width: 200, height: 200, margin: 10, padding: 5 }}
-                  />
-                ) : (
-                  <Image
-                    source={{ uri: data.uri }}
-                    style={{ width: 200, height: 200, margin: 10, padding: 5 }}
-                  />
-                )}
-              </View>
+              {data.name.includes('.pdf') ? (
+            <ImageBackground
+            source={{
+              uri: "https://cdn.pixabay.com/photo/2017/03/08/21/20/pdf-2127829_960_720.png",
+            }}
+            style={{ width: 200, height: 200, margin: 10, padding: 5 }}
+          >
+            <View style={{ padding: 5, alignItems: "flex-end" }}>
+              <TouchableOpacity
+                style={{ borderColor: "black", borderWidth: 1 }}
+                onPress={() => GotoDelete(data.name)}
+              >
+                <Image
+                  source={require("../assets/trash.png")}
+                  style={{
+                    width: 20,
+                    height: 20,
+                    margin: 5,
+                    alignContent: "flex-end",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
+        ) : (
+          <ImageBackground
+            source={{ uri: data.uri }}
+            style={{ width: 200, height: 200, margin: 10, padding: 5 }}
+          >
+            <View style={{ padding: 5, alignItems: "flex-end" }}>
+              <TouchableOpacity
+                style={{ borderColor: "black", borderWidth: 1 }}
+                onPress={() => GotoDelete(data.name)}
+              >
+                <Image
+                  source={require("../assets/trash.png")}
+                  style={{
+                    width: 20,
+                    height: 20,
+                    margin: 5,
+                    alignContent: "flex-end",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
+           )}
+         </View>
             ))}
           </ScrollView>
 
